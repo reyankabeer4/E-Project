@@ -1,0 +1,142 @@
+﻿@model  List<AirelineReservationSystem.Models.Flight>;
+
+    @{
+    ViewData["Title"] = "Show Flight";
+    }
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+              rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        @*<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />*@
+
+        <style>
+            .active-nav {
+                background-color: #0b132b;
+                padding: 10px 0;
+                border-radius: 5px;
+                color: white;
+            }
+
+            .sideBar {
+                width: 300px;
+                background-color: #f0f0f0;
+            }
+
+            .shadow-sm {
+                box-shadow: 10px 10px 10px 10px grey;
+            }
+
+
+            .mainContent {
+                width: 100%;
+                overflow-x: auto;
+            }
+        </style>
+
+
+
+
+    </head>
+    <body class="m-0 p-0">
+        <div class="d-flex">
+            <!-- Sidebar -->
+            <div class="sideBar d-flex flex-column p-3">
+                <a href="" class="text-decoration-none h2 my-2">ARS</a>
+                <ul class="navbar-nav gap-3">
+                    <li class="nav-item p-2 ">
+                        <a asp-controller="Admin" asp-action="Dashboard" class="nav-link">Dashboard</a>
+                    </li>
+
+                    <li class="nav-item p-2 active-nav">
+                        <a class="nav-link " data-bs-toggle="collapse" data-bs-target="#extraMenu" role="button" aria-expanded="false" aria-controls="extraMenu">
+                            Flights
+                        </a>
+                        <div class="collapse ps-3" id="extraMenu">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a asp-controller="Admin" asp-action="Flight" class="nav-link">Add Flights</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-controller="Admin" asp-action="ShowFlight" class="nav-link">Show Flights</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a asp-controller="Admin" asp-action="Bookings" class="nav-link">Bookings</a>
+                    </li>
+                    <li class="nav-item p-2">
+                        <a asp-controller="Admin" asp-action="Users" class="nav-link">Users</a>
+                    </li>
+                    <li class="nav-item p-2"><a href="" class="nav-link">Sign Out</a></li>
+                </ul>
+            </div>
+            <!-- Main content -->
+            
+            <div class="mainContent d-flex justify-content-center align-items-center bg-light flex-grow-1 min-vh-100 p-4" style="width: 100%; overflow-x: auto;">
+
+               
+
+                <div class="table-responsive" style="overflow-x:auto;">
+                    <table class="table" style="min-width: 1000px;">
+
+                        <thead>
+                            <tr>
+                                <th class="text-nowrap">Id</th>
+                                <th class="text-nowrap">Flight Name</th>
+                                <th class="text-nowrap">Flight Number</th>
+                                <th class="text-nowrap">Departure Time</th>
+                                <th class="text-nowrap">Arrival Time</th>
+                                <th class="text-nowrap">Seats</th>
+                                <th class="text-nowrap">Available Seats</th>
+                                <th class="text-nowrap">Price</th>
+                                <th class="text-nowrap">Flight Picture</th>
+                                <th class="text-nowrap">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var flight in Model)
+{
+                            <tr>
+                                <td class="text-nowrap">@flight.FlightId</td>
+                                <td class="text-nowrap">@flight.AirlineName</td>
+                                <td class="text-nowrap">@flight.FlightNumber</td>
+                                <td class="text-nowrap">@(flight.DepartureTime != null ? flight.DepartureTime.Value.ToString("ddd, dd MMM yyyy h:mmtt") : "0")</td>
+                                <td class="text-nowrap">@(flight.ArrivalTime != null ? flight.ArrivalTime.Value.ToString("ddd, dd MMM yyyy h:mmtt") : "0")</td>
+                                <td class="text-nowrap">@flight.TotalSeats</td>
+                                <td class="text-nowrap">@flight.AvailableSeats</td>
+                                <td class="text-nowrap">@flight.Price</td>
+                                <td class="text-nowrap"><img src="~/images/@flight.FlightPic" width="50" alt="flightPic" /></td>
+                                <td class="text-nowrap">
+                                    <a asp-action="EditFlight" asp-route-id="@flight.FlightId" class="btn btn-sm btn-primary">Edit</a>
+                                </td>
+                            </tr>
+}
+                        </tbody>
+
+
+                    </table>
+
+                </div>
+                @*</div>*@
+
+            </div>
+        </div>
+        <!-- Add Chart.js CDN BEFORE your own script -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <!-- reCAPTCHA script (you must replace "your-site-key" with an actual site key) -->
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+</html>
+
